@@ -1,9 +1,9 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header class="bg-white text-grey-10" bordered>
-      <q-toolbar>
+      <q-toolbar class="constrain">
         <q-btn
-          class="large-screen-only"
+          class="large-screen-only q-mr-sm"
           to="/camera"
           flat
           round
@@ -11,6 +11,7 @@
           size="18px"
           dense
         />
+        <q-separator vertical spaced class="large-screen-only" />
         <q-toolbar-title class="text-grand-hotel text-bold">
           VueGram
         </q-toolbar-title>
@@ -54,9 +55,13 @@ export default {
 </script>
 
 <style lang="sass">
+.q-toolbar
+  @media (min-width: $breakpoint-sm-min)
+    height: 77px
 .q-toolbar__title
-  text-align: center
   font-size: 30px
+  @media (max-width: $breakpoint-xs-max)
+    text-align: center
 .q-footer
   .q-tab__icon
     font-size: 30px
