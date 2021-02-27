@@ -1,25 +1,32 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+    <q-header class="bg-white text-grey-10" bordered>
       <q-toolbar>
         <q-btn
+          class="large-screen-only"
+          to="/camera"
           flat
-          dense
           round
-          icon="menu"
-          aria-label="Menu"
-          @click="leftDrawerOpen = !leftDrawerOpen"
+          icon="eva-camera-outline"
+          size="18px"
+          dense
         />
-
-        <q-toolbar-title>
-          Quasar App
+        <q-toolbar-title class="text-grand-hotel text-bold">
+          VueGram
         </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
+        <q-btn
+          class="large-screen-only"
+          to="/"
+          flat
+          round
+          icon="eva-home-outline"
+          size="18px"
+          dense
+        />
       </q-toolbar>
     </q-header>
 
-    <q-footer class="bg-white" bordered>
+    <q-footer class="bg-white small-screen-only" bordered>
       <q-tabs
         class="text-grey-10"
         active-color="primary"
@@ -47,6 +54,9 @@ export default {
 </script>
 
 <style lang="sass">
+.q-toolbar__title
+  text-align: center
+  font-size: 30px
 .q-footer
   .q-tab__icon
     font-size: 30px
