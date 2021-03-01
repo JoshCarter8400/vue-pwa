@@ -49,7 +49,13 @@
         label="Location"
       >
         <template v-slot:append>
-          <q-btn round dense flat icon="eva-navigation-2-outline" />
+          <q-btn
+            @click="getLocation"
+            round
+            dense
+            flat
+            icon="eva-navigation-2-outline"
+          />
         </template>
       </q-input>
     </div>
@@ -150,6 +156,17 @@ export default {
       // write the ArrayBuffer to a blob, and you're done
       var blob = new Blob([ab], { type: mimeString });
       return blob;
+    },
+    getLocation() {
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          console.log("position:", position);
+        },
+        err => {
+          console.log("err:", err);
+        },
+        { timeout: 7000 }
+      );
     }
   },
   mounted() {
