@@ -45,6 +45,8 @@
 </template>
 
 <script>
+import VueGeolocation from "vue-browser-geolocation";
+
 export default {
   name: "MainLayout",
 

@@ -43,6 +43,7 @@
     </div>
     <div class="row justify-center q-ma-md">
       <q-input
+        :loading="locationLoading"
         class="col col-sm-6"
         dense
         v-model="post.location"
@@ -67,7 +68,9 @@
 
 <script>
 import { uid } from "quasar";
+import VueGeolocation from "vue-browser-geolocation";
 require("md-gum-polyfill");
+require("vue-browser-geolocation");
 export default {
   name: "PageCamera",
   data() {
@@ -81,7 +84,8 @@ export default {
       },
       imageCaptured: false,
       imageUpload: [],
-      hasCameraSupport: true
+      hasCameraSupport: true,
+      locationLoading: true
     };
   },
   methods: {
@@ -158,15 +162,41 @@ export default {
       return blob;
     },
     getLocation() {
+      this.locationLoading = true;
       navigator.geolocation.getCurrentPosition(
         position => {
-          console.log("position:", position);
+          this.getCityAndCountry(position);
         },
         err => {
-          console.log("err:", err);
+          this.locationError();
         },
         { timeout: 7000 }
       );
+    },
+    getCityAndCountry(position) {
+      let apiUrl = `https://geocode.xyz/${position.coords.latitude},${position.coords.longitude}?json=1`;
+      this.$axios
+        .get(apiUrl)
+        .then(result => {
+          this.locationSuccess(result);
+        })
+        .catch(err => {
+          this.locationError();
+        });
+    },
+    locationSuccess(result) {
+      this.post.location = result.data.city;
+      if (result.data.country) {
+        this.post.location += `, ${result.data.country}`;
+      }
+      this.locationLoading = false;
+    },
+    locationError() {
+      this.$q.dialog({
+        title: "Error",
+        message: "Could not find your location."
+      });
+      this.locationLoading = false;
     }
   },
   mounted() {
