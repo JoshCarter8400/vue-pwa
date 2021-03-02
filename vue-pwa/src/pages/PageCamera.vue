@@ -51,6 +51,7 @@
       >
         <template v-slot:append>
           <q-btn
+            v-if="!locationLoading && locationSupported"
             @click="getLocation"
             round
             dense
@@ -68,7 +69,7 @@
 
 <script>
 import { uid } from "quasar";
-import VueGeolocation from "vue-browser-geolocation";
+// import VueGeolocation from "vue-browser-geolocation";
 require("md-gum-polyfill");
 require("vue-browser-geolocation");
 export default {
@@ -85,8 +86,14 @@ export default {
       imageCaptured: false,
       imageUpload: [],
       hasCameraSupport: true,
-      locationLoading: true
+      locationLoading: false
     };
+  },
+  computed: {
+    locationSupported() {
+      if ("geolocation" in navigator) return true;
+      return false;
+    }
   },
   methods: {
     initCamera() {
