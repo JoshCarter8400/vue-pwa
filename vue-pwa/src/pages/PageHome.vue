@@ -59,42 +59,28 @@ export default {
   name: "PageHome",
   data() {
     return {
-      posts: [
-        {
-          id: 1,
-          caption: "VueGram is the best!!",
-          date: 1614457611983,
-          location: "Key West, FL",
-          imageUrl: "https://cdn.quasar.dev/img/parallax2.jpg"
-        },
-        {
-          id: 2,
-          caption: "VueGram is the best!!",
-          date: 1614457611983,
-          location: "Key West, FL",
-          imageUrl: "https://cdn.quasar.dev/img/parallax2.jpg"
-        },
-        {
-          id: 3,
-          caption: "VueGram is the best!!",
-          date: 1614457611983,
-          location: "Key West, FL",
-          imageUrl: "https://cdn.quasar.dev/img/parallax2.jpg"
-        },
-        {
-          id: 4,
-          caption: "VueGram is the best!!",
-          date: 1614457611983,
-          location: "Key West, FL",
-          imageUrl: "https://cdn.quasar.dev/img/parallax2.jpg"
-        }
-      ]
+      posts: []
     };
+  },
+  methods: {
+    getPosts() {
+      this.$axios
+        .get("http://localhost:3000/posts")
+        .then(res => {
+          this.posts = res.data;
+        })
+        .catch(err => {
+          console.log("err: ", err);
+        });
+    }
   },
   filters: {
     niceDate(value) {
       return date.formatDate(value, "MMMM D h:mmA");
     }
+  },
+  created() {
+    this.getPosts();
   }
 };
 </script>
