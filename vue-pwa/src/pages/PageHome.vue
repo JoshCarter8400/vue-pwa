@@ -104,7 +104,7 @@ export default {
     getPosts() {
       this.loadingPosts = true;
       this.$axios
-        .get("http://localhost:3000/posts")
+        .get(`${process.env.API}/posts`)
         .then(res => {
           this.posts = res.data;
           this.loadingPosts = false;
@@ -112,7 +112,7 @@ export default {
         .catch(err => {
           this.$q.dialog({
             title: "Error",
-            message: "Could not find your location."
+            message: "Could not download Posts."
           });
           this.loadingPosts = false;
         });
